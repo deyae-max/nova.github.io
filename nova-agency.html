@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova Agency — Modern Business Landing Page</title>
+  <meta name="description" content="Nova Agency crafts modern, responsive websites to help businesses thrive online." />
+  <meta name="keywords" content="web design, development, branding, responsive, digital agency" />
+  <meta name="author" content="Nova Agency" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8f9fa;
+      color: #222;
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Preloader */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #00bfa5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #preloader .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #fff;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      z-index: 1000;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    header.scrolled {
+      background: #00bfa5;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #00bfa5;
+      user-select: none;
+      cursor: default;
+      transition: color 0.3s;
+    }
+    header.scrolled .logo {
+      color: #fff;
+    }
+    nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: #222;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+    header.scrolled nav a {
+      color: #f0f0f0;
+    }
+    nav a:hover {
+      color: #00bfa5;
+    }
+    header.scrolled nav a:hover {
+      color: #00997e;
+    }
+
+    /* Dark mode styles */
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+    body.dark header {
+      background: #111;
+      box-shadow: 0 2px 6px rgba(255,255,255,0.1);
+    }
+    body.dark header.scrolled {
+      background: #007962;
+      box-shadow: 0 4px 10px rgba(0,255,180,0.25);
+    }
+    body.dark .logo {
+      color: #00bfa5;
+    }
+    body.dark nav a {
+      color: #ccc;
+    }
+    body.dark nav a:hover {
+      color: #00bfa5;
+    }
+    body.dark header.scrolled .logo {
+      color: #b2f7ef;
+    }
+    body.dark header.scrolled nav a {
+      color: #d0f9f1;
+    }
+    
+    /* Dark mode toggle button */
+    #dark-toggle {
+      background: transparent;
+      border: 2px solid #00bfa5;
+      color: #00bfa5;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      user-select: none;
+    }
+    #dark-toggle:hover {
+      background: #00bfa5;
+      color: #fff;
+    }
+    body.dark #dark-toggle {
+      background: #00bfa5;
+      color: #121212;
+      border-color: transparent;
+    }
+    body.dark #dark-toggle:hover {
+      background: #00997e;
+      color: #fff;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      background: url('https://images.unsplash.com/photo-1522202195465-d7f1ccdd8c17?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 20px;
+      animation: fadeInUp 1.2s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .hero-content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.1;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      color: #ddd;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .cta-btn {
+      background: #00bfa5;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,191,165,0.4);
+    }
+    .cta-btn:hover {
+      background: #00997e;
+      box-shadow: 0 6px 16px rgba(0,153,126,0.6);
+    }
+    .cta-btn.secondary {
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      box-shadow: none;
+    }
+    .cta-btn.secondary:hover {
+      background: #fff;
+      color: #00bfa5;
+      box-shadow: 0 4px 12px rgba(0,191,165,0.6);
+    }
+
+    /* Sections */
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      user-select: none;
+    }
+    h2.section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: #00bfa5;
+      user-select: none;
+    }
+
+    /* Services */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .service-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .service-card h3 {
+      margin-bottom: 12px;
+      color: #00bfa5;
+      font-weight: 700;
+    }
+    .service-card svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 15px;
+      fill: #00bfa5;
+      transition: fill 0.3s ease;
+    }
+    .service-card:hover svg {
+      fill: #00997e;
+    }
+
+    /* About */
+    .about {
+      text-align: center;
+    }
+    .about p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #555;
+      font-size: 1.1rem;
+      user-select: text;
+    }
+
+    /* Portfolio */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .portfolio-item {
+      background: #ddd;
+      border-radius: 8px;
+      height: 180px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .portfolio-item::after {
+      content: "Project Preview";
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,191,165,0.8);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+    .portfolio-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,191,165,0.3);
+    }
+    .portfolio-item:hover::after {
+      opacity: 1;
+    }
+
+    /* Contact */
+    .contact {
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+      user-select: none;
+    }
+    input, textarea {
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      user-select: text;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      border-color: #00bfa5;
+      outline: none;
+    }
+    button {
+      background: #00bfa5;
+      color: #fff;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 700;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(0,191,165,0.4);
+    }
+    button:hover {
+      background: #00997e;
+      box-shadow: 0 6px 16px rgba(0,153,126,0.6);
+    }
+    .form-success {
+      background: #00bfa5;
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* Testimonials */
+    #testimonials {
+      background: #e0f7f5;
+      padding: 60px 20px;
+      border-radius: 12px;
+      margin: 60px auto;
+      max-width: 900px;
+      user-select: none;
+    }
+    #testimonials h2 {
+      color: #00796b;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .testimonial {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      font-style: italic;
+      position: relative;
+    }
+    .testimonial::before {
+      content: "“";
+      font-size: 4rem;
+      color: #00bfa5;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      opacity: 0.15;
+    }
+    .testimonial p {
+      margin-bottom: 10px;
+    }
+    .testimonial .author {
+      font-weight: 700;
+      text-align: right;
+      color: #00796b;
+    }
+
+    /* Back to Top button */
+    #backToTop {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background: #00bfa5;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,191,165,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 999;
+      user-select: none;
+    }
+    #backToTop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    #backToTop:hover {
+      background: #00997e;
+      box-shadow: 0 6px 16px rgba(0,153,126,0.7);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      nav a {
+        margin: 0 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Nova Agency</div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="dark-toggle" aria-label="Toggle dark mode">Dark Mode</button>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>Building Modern Web Solutions</h1>
+      <p>Crafting clean, responsive, and engaging websites to help businesses thrive in the digital age.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="cta-btn">Start Your Project</a>
+        <a href="#portfolio" class="cta-btn secondary">See Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <h2 class="section-title">Our Services</h2>
+    <div class="services">
+      <div class="service-card" data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 6C18.192 6 6 18.192 6 32s12.192 26 26 26 26-12.192 26-26S45.808 6 32 6zm0 48a22 22 0 1 1 0-44 22 22 0 0 1 0 44zm0-38a16 16 0 0 0-4 31.09v-6.92a4 4 0 1 1 8 0v6.92A16 16 0 0 0 32 16z"/></svg>
+        <h3>Web Design</h3>
+        <p>Modern, responsive designs focused on user experience.</p>
+      </div>
+      <div class="service-card" data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M12 14h40v36H12zM8 10h48v44H8z"/></svg>
+        <h3>Development</h3>
+        <p>Clean, scalable code built for performance and reliability.</p>
+      </div>
+      <div class="service-card" data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 12l-20 20 6 6 14-14 14 14 6-6-20-20z"/></svg>
+        <h3>Branding</h3>
+        <p>Creating a consistent and professional brand identity online.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <h2 class="section-title">About Us</h2>
+    <p data-animate>Nova Agency is a creative digital studio specializing in crafting modern, responsive websites. Our mission is to help businesses establish a powerful online presence with clean design and functional code.</p>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <h2 class="section-title">Portfolio</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item" data-animate title="Project 1 Preview" style="background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;"></div>
+      <div class="portfolio-item" data-animate title="Project 2 Preview" style="background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;"></div>
+      <div class="portfolio-item" data-animate title="Project 3 Preview" style="background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;"></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonial" data-animate>
+      <p>"Nova Agency transformed our outdated website into a sleek, modern platform. Sales increased by 30% within months!"</p>
+      <div class="author">– Jane Smith, CEO of BrightTech</div>
+    </div>
+    <div class="testimonial" data-animate>
+      <p>"Professional, efficient, and creative. Highly recommended for anyone wanting a standout online presence."</p>
+      <div class="author">– Carlos Mendez, Founder of GreenLeaf</div>
+    </div>
+    <div class="testimonial" data-animate>
+      <p>"Their attention to detail and design aesthetic is unmatched. Our branding now truly reflects who we are."</p>
+      <div class="author">– Amina Khalid, Marketing Director at FlowMedia</div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <form id="contact-form" novalidate>
+      <input type="text" id="name" placeholder="Your Name" required aria-required="true" aria-label="Your Name" />
+      <input type="email" id="email" placeholder="Your Email" required aria-required="true" aria-label="Your Email" />
+      <textarea id="message" placeholder="Your Message" rows="4" aria-label="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+      <div class="form-success" id="form-success" role="alert" aria-live="polite">Thank you! Your message has been sent.</div>
+    </form>
+  </section>
+
+  <!-- Back to Top -->
+  <button id="backToTop" aria-label="Back to top" title="Back to top">↑</button>
+
+  <script>
+    // PRELOADER
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      preloader.style.opacity = '0';
+      setTimeout(() => preloader.style.display = 'none', 500);
+    });
+
+    // SCROLL ANIMATIONS
+    const animateEls = document.querySelectorAll('[data-animate]');
+    const animObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    animateEls.forEach(el => animObserver.observe(el));
+
+    // HEADER SCROLL EFFECT
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+      toggleBackToTop();
+    });
+
+    // DARK MODE TOGGLE
+    const darkToggle = document.getElementById('dark-toggle');
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      if(document.body.classList.contains('dark')) {
+        localStorage.setItem('nova-darkmode', 'true');
+        darkToggle.textContent = 'Light Mode';
+      } else {
+        localStorage.setItem('nova-darkmode', 'false');
+        darkToggle.textContent = 'Dark Mode';
+      }
+    });
+    // Load dark mode setting
+    if(localStorage.getItem('nova-darkmode') === 'true') {
+      document.body.classList.add('dark');
+      darkToggle.textContent = 'Light Mode';
+    }
+
+    // BACK TO TOP BUTTON
+    const backToTopBtn = document.getElementById('backToTop');
+    function toggleBackToTop() {
+      if(window.scrollY > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // CONTACT FORM VALIDATION & SUCCESS
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('form-success');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      if (!name) {
+        alert('Please enter your name.');
+        form.name.focus();
+        return;
+      }
+      if (!email || !validateEmail(email)) {
+        alert('Please enter a valid email.');
+        form.email.focus();
+        return;
+      }
+      // Normally here you'd send data to a server
+      // Simulate success:
+      successMsg.style.display = 'block';
+      form.reset();
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+      }, 5000);
+    });
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+  </script>
+
+</body>
+</html>
+
+
+
